@@ -1,4 +1,4 @@
-# BaysianTableThrow
+# BayesianTableThrow
 
 inspired to make after watching https://youtu.be/7GgLSnQ48os
 

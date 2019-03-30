@@ -6,7 +6,6 @@ Created on 30 Mar 2019
 
 import random
 import numpy as np
-from astropy.coordinates.angle_utilities import position_angle
 
 numberOfThrows=10
 boardSize=10 

@@ -6,6 +6,7 @@ Created on 30 Mar 2019
 
 import random
 import numpy as np
+from threading import currentThread
 
 numberOfThrows=10
 boardSize=10 
@@ -20,6 +21,10 @@ Position=random.uniform(0,boardSize)
 exactMatchCounter=0
 
 def findSign(landPos, actualPos):
+    '''
+    Finds direction of throw relative to actual position.
+    Probably a more mathsy way to do this than with logic
+    '''
     
     if (landPos<actualPos):
         return +1
@@ -30,9 +35,17 @@ def findSign(landPos, actualPos):
         return 0
     
 def throw(size):
+    '''
+    This is a function in case I wanted to implement more logic in this
+    '''
+    
     return random.uniform(0,size)
 
 def guessDiff(guess,pos):
+    '''
+    Calculates difference between actual position and guesses
+    '''
+    
     diff=np.zeros(numberOfThrows)
     
     for i in range(1,numberOfThrows+1):
@@ -41,10 +54,30 @@ def guessDiff(guess,pos):
     return diff
 
 
+def guessLogic(noOfThrows,currentThrow,Guesses):
+    '''
+    Basic +- to guess doesn't work, trying an averaging approach
+    This is hopefully similar to how  a human would process this information
+    
+    This is probably no different to just taking all the +-s and averaging them
+    but this makes more 'logical' sense
+    '''
+    avg=0
+    
+    for j in range(0,noOfThrows):
+        avg+=Guesses[j]
+    
+    avg/=noOfThrows*1.0
+    
+    return avg+findSign(currentThrow, Position)
+
+
 
 for i in range(1,numberOfThrows+1):
     Throws[i-1]=throw(boardSize)
+        
+    Guess[i]= guessLogic(i,Throws[i-1],Guess)
     
-    Guess[i]=Guess[i-1]+findSign(Throws[i-1], Position)
-    
-print(guessDiff(Guess, Position),Position)
+#print(Position,Guess[-1])
+print(guessDiff(Guess, Position))
+#print(Throws)

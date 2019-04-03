@@ -15,9 +15,9 @@ boardSize=10
 Guess= np.zeros(numberOfThrows+1)
 Guess[0]=boardSize/2.0
 
-Throws=np.zeros(numberOfThrows)
+Throws=np.zeros(numberOfThrows+1)
 
-Position=random.uniform(0,boardSize)
+Throws[0]=random.uniform(0,boardSize) #first 'Throw' is the target
 exactMatchCounter=0
 
 def findSign(landPos, actualPos):
@@ -54,7 +54,7 @@ def guessDiff(guess,pos):
     return diff
 
 
-def guessLogic(noOfThrows,currentThrow,Guesses):
+def guessLogic(noOfThrows,currentThrow,Guesses,actualPosition):
     '''
     Basic +- to guess doesn't work, trying an averaging approach
     This is hopefully similar to how  a human would process this information
@@ -69,15 +69,15 @@ def guessLogic(noOfThrows,currentThrow,Guesses):
     
     avg/=noOfThrows*1.0
     
-    return avg+findSign(currentThrow, Position)
+    return avg+findSign(currentThrow, actualPosition)
 
 
 
 for i in range(1,numberOfThrows+1):
-    Throws[i-1]=throw(boardSize)
+    Throws[i]=throw(boardSize)
         
-    Guess[i]= guessLogic(i,Throws[i-1],Guess)
+    Guess[i]= guessLogic(i,Throws[i],Guess,Throws[0])
     
 #print(Position,Guess[-1])
-print(guessDiff(Guess, Position))
+print(guessDiff(Guess, Throws[0]))
 #print(Throws)
